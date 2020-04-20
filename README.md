@@ -1,4 +1,4 @@
-# purecarousel.github.io
+# purecarousel
 Pure and simple CSS3 - JS/jQuery carousel
 
 The purpose is to be simple and lightweight.
