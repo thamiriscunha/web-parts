@@ -9,17 +9,20 @@ body{
   font-weight: lighter;
   background-color: #2a2a2a;
 }
-  .main .container{
+  main .container{
     overflow-x: hidden;
     width: 80%;
     margin: 0 auto;
   }
-    .main .container #carouselController{
+
+    /* ---------- CAROUSEL STYLE ---------- */
+
+    main .container #carouselController{
       display: flex;
       justify-content: center;
       width: 100%;
     }
-      .main .container #carouselController .button{
+      main .container #carouselController .button{
         width: 1rem;
         height: 1rem;
         margin: .5rem;
@@ -27,21 +30,75 @@ body{
         border: solid 2px #fff;
         cursor: pointer;
       }
-        .main .container #carouselController .active{
+        main .container #carouselController .active{
           background-color: #666;
         }
-    .main .container .content-carousel{
+    main .container .content-carousel{
       display: flex;
     }
-      .main .container .content{
+      main .container .content{
         width: 100%;
         padding-left: 0;
         transition-duration: .5s;
         position: relative;
         left: 0%;
+      }
+
+    /* ---------- SLIDER STYLE ---------- */
+
+    main .container #sliderContainer{
+      margin: 10rem 0;
+      position: relative;
+      padding: 0 4rem;
+    }
+      main .container #sliderContainer .btn{
+        position: absolute;
+        width: 3rem;
+        height: 3rem;
+        top: calc(50% - (3rem / 2));
+        color: #fff;
+        cursor: pointer;
+        padding: 1rem;
+        font-size: 150%;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #3a5e45;
+        border-radius: 50%;
+        user-select: none;
+        box-shadow: 2px 2px 1px #000;
+        transition-duration: .2s;
+      }
+        main .container #sliderContainer .btn:hover{
+          transform: scale(1.1);
+        }
+        main .container #sliderContainer #leftBtn{
+          left: .5rem;
+        }
+        main .container #sliderContainer #rightBtn{
+          right: .5rem;
+        }
+      main .container #sliderContainer .items{
+        display: flex;
+        width: max-content;
+        z-index: 1;
+      }
+        main .container #sliderContainer .items .item{
+          background-color: #fff;
+          width: 15rem;
+          height: 15rem;
+          margin: 0 .5rem 0 0;
+          position: relative;
+          left: 0%;
+          transition-duration: .2s;
+          border-radius: .5rem;
+          box-shadow: 1px 1px 5px #000;
+        }
 
         /* ---------- not important stuff ---------- */
 
+      main .container .content{
         height: 60vh;
         display: flex;
         align-items: center;
@@ -49,33 +106,33 @@ body{
         margin: 2rem 0;
         border-radius: 1rem;
       }
-        .main .container .content h2{
+        main .container .content h2{
           text-align: center;
           color: #fff;
           font-size: 300%;
           margin: 1rem 0;
         }
-      .main .container .first{
+      main .container .first{
         border: solid 5px #314755;
       }
-      .main .container .second{
+      main .container .second{
         border: solid 5px #AA076B;
       }
-      .main .container .third{
+      main .container .third{
         border: solid 5px #E36209;
       }
-    .main .container h3{
+    main .container h3{
       color: #fff;
       margin-top: 2rem;
     }
-    .main .container p{
+    main .container p{
       color: #fff;
       margin: 0;
     }
-    .main .container a{
+    main .container a{
       color: #ECC200;
       text-decoration: none;
     }
-      .main .container a:hover{
+      main .container a:hover{
         text-decoration: underline;
       }
