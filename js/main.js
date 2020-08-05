@@ -1,81 +1,111 @@
-/* ---------- CAROUSEL SCRIPTS ---------- */
-$('#carouselContainer').ready(function(){
+function docReady(fn) {
+  // see if DOM is already available
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    // call on next available tick
+    setTimeout(fn, 1);
+  } else {
+    document.addEventListener("DOMContentLoaded", fn);
+  }
+}
 
-  let actualSlide = 0;
-  const totalSlides = $('#carousel .content').length;
-  const gap = 100 / totalSlides;
+function getRealWidth(element) {
 
-  $('#carousel').css('width', (100 * totalSlides) + '%');
-  $('#carouselController .button:eq(' + actualSlide + ')').addClass('active');
+  var cs = getComputedStyle(element);
 
-  let slide = function(){
+  var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
 
-    if(actualSlide >= totalSlides)
-      actualSlide = 0;
+  var borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
 
-    $('#carouselController .button').removeClass('active');
-    $('#carouselController .button:eq(' + actualSlide + ')').addClass('active');
+  // Element width minus padding and border
+  elementWidth = element.offsetWidth - paddingX - borderX;
 
-    for (let i = 0; i < totalSlides; i++){
+  return elementWidth;
+}
 
-      if(actualSlide != totalSlides)
-        $('#carousel .content:eq(' + i + ')').css(
-          'left', ((gap * actualSlide) * -1) + '%'
-        );
-      else
-      $('#carousel .content:eq(' + i + ')').css(
-        'left', '0%'
-      );
+docReady(function() {
+
+  /* ---------- CAROUSEL SCRIPTS ---------- */
+
+  if(document.getElementById('carouselContainer')) {
+    let carouselContainer = document.getElementById('carouselContainer');
+    let carousel = document.getElementById('carousel');
+
+    let actualSlide = 0;
+    const totalSlides = carouselContainer.children.length + 1;
+    const gap = 100 / totalSlides;
+
+    carousel.style.width = (100 * totalSlides) + '%';
+    document.querySelectorAll('#carouselController .button')[actualSlide].classList.add('active');
+
+    let slide = function(){
+
+      if(actualSlide >= totalSlides)
+        actualSlide = 0;
+
+      document.querySelectorAll('#carouselController .button').forEach((item, i) => {
+        item.classList.remove('active');
+      });
+      document.querySelectorAll('#carouselController .button')[actualSlide].classList.add('active');
+
+      for (let i = 0; i < totalSlides; i++){
+
+        if(actualSlide != totalSlides)
+          document.querySelectorAll('#carousel .content')[i].style.left = ((gap * actualSlide) * -1) + '%';
+        else
+        document.querySelectorAll('#carousel .content')[i].style.left = '0%';
+      }
     }
+
+    document.querySelectorAll('#carouselController .button').forEach((item, i) => {
+      item.addEventListener('click', function(){
+        actualSlide = Array.prototype.indexOf.call(document.querySelectorAll('#carouselController .button'), this)
+        slide();
+      });
+    });
+
+    window.setInterval(function(){
+      if(!carouselContainer.matches(':hover')){
+        actualSlide += 1;
+        slide();
+      }
+    }, 5000);
+
   }
 
-  $('#carouselController .button').on('click', function(){
-    actualSlide = $(this).index();
-    slide();
-  });
+  /* ---------- SLIDER SCRIPTS ---------- */
 
-  window.setInterval(function(){
-    if(!$('#carouselContainer').is(':hover')){
-      actualSlide += 1;
-      slide();
-    }
-  }, 5000);
+  if(document.getElementById('sliderContainer')) {
+    let position = 0;
+    let items = document.querySelectorAll('#sliderContainer .items .item');
 
-});
+    let containerWidth = getRealWidth(document.getElementById('sliderContainer'));
+    let itemsContainerWidth = document.querySelectorAll('#sliderContainer .items')[0].offsetWidth;
 
-/* ---------- SLIDER SCRIPTS ---------- */
-$('#sliderContainer').ready(function(){
+    let moveGap = (100 / itemsContainerWidth) * containerWidth;
 
-  let position = 0;
-  let items = $('#sliderContainer .items .item');
+    document.getElementById('leftBtn').addEventListener('click', function(){
+      if((position + moveGap) > 0){
+        position = 0;
+      } else {
+        position += moveGap;
+      }
 
-  let containerWidth = $('#sliderContainer').width();
-  let itemsContainerWidth = $('#sliderContainer .items').width();
+      items.forEach((item, i) => {
+        item.style.left = position + '%';
+      });
+    });
 
-  let moveGap = (100 / itemsContainerWidth) * containerWidth;
+    document.getElementById('rightBtn').addEventListener('click', function(){
+      if((position - moveGap) < (-100 + moveGap)){
+        position = -100 + moveGap;
+      } else {
+        position -= moveGap;
+      }
 
-  $('#leftBtn').on('click', function(){
-
-    if((position + moveGap) > 0){
-      position = 0;
-    } else {
-      position += moveGap;
-    }
-
-    items.css('left', position + '%');
-
-  });
-
-  $('#rightBtn').on('click', function(){
-
-    if((position - moveGap) < (-100 + moveGap)){
-      position = -100 + moveGap;
-    } else {
-      position -= moveGap;
-    }
-
-    items.css('left', position + '%');
-
-  });
+      items.forEach((item, i) => {
+        item.style.left = position + '%';
+      });
+    });
+  }
 
 });
